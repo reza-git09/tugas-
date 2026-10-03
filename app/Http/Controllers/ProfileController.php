@@ -12,7 +12,7 @@ use Illuminate\View\View;
 class ProfileController extends Controller
 {
     /**
-     * Display the user's profile form.
+     * Menampilkan halaman profile Breeze.
      */
     public function edit(Request $request): View
     {
@@ -22,7 +22,18 @@ class ProfileController extends Controller
     }
 
     /**
-     * Update the user's profile information.
+     * Mengambil data user yang sedang login.
+     * Digunakan untuk Acara 23.
+     */
+    public function showProfile()
+    {
+        $user = Auth::user();
+
+        return view('profile', compact('user'));
+    }
+
+    /**
+     * Memperbarui profile.
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
@@ -38,14 +49,10 @@ class ProfileController extends Controller
     }
 
     /**
-     * Delete the user's account.
+     * Menghapus akun.
      */
     public function destroy(Request $request): RedirectResponse
     {
-        $request->validateWithBag('userDeletion', [
-            'password' => ['required', 'current_password'],
-        ]);
-
         $user = $request->user();
 
         Auth::logout();
